@@ -8,9 +8,11 @@ let youtubePlayerPromise = null;
 let userInteracted = false;
 let contentLocks = {};
 
+// Detectar si estamos en una TV o dispositivo móvil
 const isMobileOrTV = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|SmartTV|TV|Xbox|PlayStation|Nintendo|Apple TV|Samsung TV/i.test(navigator.userAgent);
 console.log(`Dispositivo detectado: ${isMobileOrTV ? 'Móvil/TV' : 'Computadora'}`);
 
+// Esta función es llamada automáticamente por la API de YouTube
 function onYouTubeIframeAPIReady() {
   console.log("API de YouTube lista.");
   isYoutubeApiLoaded = true;
