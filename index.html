@@ -132,14 +132,50 @@
         <button id="start-button" onclick="handleStartSound()">Iniciar con Sonido</button>
     </div>
 
-    <iframe 
-      id="main-iframe" 
-      src="https://inlotrans-my.sharepoint.com/:x:/g/personal/dennis_ballesteros_inlotrans_com_co/IQDBj8JrzxFIQpLX3ksHURqDAdN6JeOKGSSXtODf6tEFfSs?embed=true"
-      frameborder="0" 
-      scrolling="no"
-      allowfullscreen
-      style="border: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1;">
-    </iframe>
+    <!-- En index.html, reemplaza el iframe con esto -->
+<div id="excel-container" style="width:100%;height:100%;display:flex;justify-content:center;align-items:center;">
+  <iframe 
+    id="main-iframe" 
+    src="https://inlotrans-my.sharepoint.com/:x:/g/personal/dennis_ballesteros_inlotrans_com_co/IQDBj8JrzxFIQpLX3ksHURqDAdN6JeOKGSSXtODf6tEFfSs?embed=true"
+    frameborder="0" 
+    scrolling="no"
+    style="width:100%;height:100%;border:none;">
+  </iframe>
+  
+  <!-- Fallback si el iframe falla -->
+  <div id="excel-fallback" style="display:none; text-align:center; color:white; background:rgba(0,0,0,0.8); padding:40px; border-radius:10px;">
+    <h3>📊 Ver Reporte en Excel</h3>
+    <p style="margin:20px 0;">El informe no se puede mostrar aquí por políticas de seguridad de Microsoft.</p>
+    <a href="https://inlotrans-my.sharepoint.com/:x:/g/personal/dennis_ballesteros_inlotrans_com_co/IQDBj8JrzxFIQpLX3ksHURqDAdN6JeOKGSSXtODf6tEFfSs" 
+       target="_blank"
+       style="padding:15px 30px; background:#28a745; color:white; text-decoration:none; border-radius:8px; display:inline-block;">
+      Abrir Excel en Nueva Pestaña ↗
+    </a>
+  </div>
+</div>
+
+<script>
+// Detectar si el iframe falló y mostrar fallback
+document.getElementById('main-iframe').addEventListener('error', function() {
+  this.style.display = 'none';
+  document.getElementById('excel-fallback').style.display = 'block';
+});
+
+// También verificar después de 10 segundos si no cargó
+setTimeout(function() {
+  const iframe = document.getElementById('main-iframe');
+  try {
+    if (iframe.contentDocument && iframe.contentDocument.body.innerHTML.includes('login')) {
+      iframe.style.display = 'none';
+      document.getElementById('excel-fallback').style.display = 'block';
+    }
+  } catch(e) {
+    // Error de cross-origin = probablemente requiere login
+    iframe.style.display = 'none';
+    document.getElementById('excel-fallback').style.display = 'block';
+  }
+}, 10000);
+</script>
     
     <div id="overlay">
         <div id="overlay-content">
@@ -152,4 +188,5 @@
     <script src="/static/js/base.js"></script>
 </body>
 </html>
+
 
